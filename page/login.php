@@ -90,6 +90,15 @@
 	
 	
 ?>
+
+<?php
+	//lehe nimi
+	$page_title = "Logi sisse!";
+	
+	//faili nimi
+	$page_file_name = "login.php";
+?>
+
 <?php require_once("../header.php"); ?>
 
 		<p>Veebilehele sisselogides saaks sisestada andmeid/pääseks ligi kogutud andmetele/neid analüüsida, mis on saadud välitööde käigus. Tegu on NATURA 2000 rannikuelupaikade kaardistamisega (GPS-punktid, pildid, kommentaarid).

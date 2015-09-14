@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Siia tuleb nimi hiljem</title>
+		<title><?php echo $page_title ?></title>
 	</head>
 	
 	<body>
