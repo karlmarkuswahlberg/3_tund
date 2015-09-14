@@ -24,6 +24,7 @@
 	
 	//muutujad väärtustega
 	$email = "";
+	$password = "";
 	$name = "";
 	$surname = "";
 	$newemail = "";
@@ -42,61 +43,65 @@
 			if(empty($_POST["email"])){
 				$email_error = "Sisesta e-mail";
 			}else{
-			//annan väärtuse
-			$email = test_input($_POST["email"]);
+				//annan väärtuse
+				$email = test_input($_POST["email"]);
 		}
 		
 		//kontrollime kasutaja parooli, et see poleks tĆ¼hi.
-		if(empty($_POST["password"])){
-			$password_error = "Sisesta parool!";
-		}else{
-			//parool ei ole tĆ¼hi, kontrollime parooli pikkust.
-			//strlen on string lenght
-			if(strlen($_POST["password"]) >= 8){
-				
+			if(empty($_POST["password"])){
+				$password_error = "Sisesta parool!";
 			}else{
-				$password_error ="Parool peab olema vähemalt 8 sümbolit pikk!";
+				$password = test_input($_POST["password"]);
+				//parool ei ole tĆ¼hi, kontrollime parooli pikkust.
+				//strlen on string lenght
+				
+				if(strlen($_POST["password"]) <= 8){
+					$password_error ="Parool peab olema vähemalt 8 sümbolit pikk!";
+				}else{
+					$password = test_input($_POST["password"]);
+				}
+				
+				if($password_error == "" && $email_error == ""){
+					// kui erroreid ei olnud
+					echo "Kontrollin ".$email. " " .$password;
 			}
-			
 			}
 		}
-		
-		
-		
 	}
 	//siit algab kasutaja loomise osa.
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
 		
 		if(isset($_POST["createuser"])){ //kui vajutatakse "registreeri kasutaja" nuppu
 		
-		if (empty($_POST["name"])) {
-			$name_error = "Eesnime väli on kohustuslik!";
-		}else{
-			$name = $_POST["name"];
-		}	
+			if (empty($_POST["name"])) {
+				$name_error = "Eesnime väli on kohustuslik!";
+			}else{
+				$name = test_input($_POST["name"]);
+			}	
 		
-		if (empty($_POST["name"])) {
-			$surname_error = "Perekonnanime väli on kohustuslik!";
-		}else{
-			$surname = $_POST["surname"];
-		}	
+			if (empty($_POST["name"])) {
+				$surname_error = "Perekonnanime väli on kohustuslik!";
+			}else{
+				$surname = test_input($_POST["surname"]);
+			}	
 		
-		if(empty($_POST["newemail"])){
-			$newemail_error = "e-maili väli on kohustuslik!";
-		}else{
-			$newemail = $_POST["newemail"];
-		}
+			if(empty($_POST["newemail"])){
+				$newemail_error = "e-maili väli on kohustuslik!";
+			}else{
+				$newemail = test_input($_POST["newemail"]);
+			}
 		
-		
-		if(empty($_POST["password1"])){
-            $password1_error="Ei saa olla tühi";
-        }else{
+			if(empty($_POST["password1"])){
+				$password1_error="Ei saa olla tühi";
+			}else{
+				$password1 = test_input($_POST["password1"]);
             
             //parool ei ole tĆ¼hi, kontrollime pikkust
             if(strlen($_POST["password1"]) < 8){
                 $password1_error="Peab olema vĆ¤hemalt 8 sümbolit!";
+			}else{
+				$password1 = test_input($_POST["password1"]);
                 
-				
 				//errorit trükitakse HTML osas rea järel php koodis.
 				}
 				
@@ -149,14 +154,13 @@
 				
 				
 				
-				Biograafia<textarea name="comment" rows="5" cols="30"><?php echo $comment;?></textarea><br>
+				Biograafia <textarea name="comment" rows="5" cols="30"><?php echo $comment;?></textarea><br>
 				
 				<p>Sünniaeg: <input type="text" name="dob" placeholder="nt. 01.01.1993" /></p>
 				
 				<input type="radio" name="gender" value="female">Naine
 				<input type="radio" name="gender" value="male">Mees <br><br>
 				
-	
 				<input name="createuser" type="submit" value="Registreeri kasutajaks!">
 			
 			
