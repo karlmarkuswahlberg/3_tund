@@ -1,0 +1,5 @@
+Login.php -> header.php -> menu.php
+		  -> footer.php
+		  
+home.php  -> header.php -> menu.php
+		  -> footer.php

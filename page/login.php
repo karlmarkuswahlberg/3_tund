@@ -14,83 +14,105 @@
 	
 	$email_error = "";
 	$password_error ="";
-	$password1 = "";
 	
+	$password1 = ""; 
 	$password1_error ="";
-	
-	$name = "";
 	$name_error = "";
-	$surname = "";
 	$surname_error = "";
-	$newemail = "";
 	$newemail_error = "";
 	$comment ="";
 	
+	//muutujad väärtustega
+	$email = "";
+	$name = "";
+	$surname = "";
+	$newemail = "";
 	
-	//kontrolli ainult siis kui kasutaja vajutab "Logi sisse" nuppu.
+	//isset - ütleb kas asi on olemas
+	//empty - kas on tühi
+	
+	//kontrolli ainult siis kui kasutaja vajutab "Logi sisse" nuppu. kas toimub nupuvajutus.
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
 		
-		//kontrollime kasutaja e-posti, et see poleks tĆ¼hi.
-		if(empty($_POST["email"])){
-		$email_error = "Sisesta e-mail";
-		
+		//kontrollin kas muutuja $_POST["login"] on olemas, ehk "login" nupp ise.
+		//kui vajut "logi sisse!"
+		if(isset($_POST["login"])){
+			
+			//kontrollime kasutaja e-posti, et see poleks tühi. kui tühi, siis error.
+			if(empty($_POST["email"])){
+				$email_error = "Sisesta e-mail";
+			}else{
+			//annan väärtuse
+			$email = test_input($_POST["email"]);
 		}
+		
 		//kontrollime kasutaja parooli, et see poleks tĆ¼hi.
 		if(empty($_POST["password"])){
-		$password_error = "Sisesta parool!";
-		
+			$password_error = "Sisesta parool!";
 		}else{
 			//parool ei ole tĆ¼hi, kontrollime parooli pikkust.
 			//strlen on string lenght
 			if(strlen($_POST["password"]) >= 8){
 				
 			}else{
-				$password_error ="Parool peab olema vĆ¤hemalt 8 sĆ¼mbolit pikk!";
+				$password_error ="Parool peab olema vähemalt 8 sümbolit pikk!";
 			}
 			
+			}
 		}
+		
+		
 		
 	}
 	//siit algab kasutaja loomise osa.
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
 		
+		if(isset($_POST["createuser"])){ //kui vajutatakse "registreeri kasutaja" nuppu
+		
 		if (empty($_POST["name"])) {
-			$name_error = "Eesnime vĆ¤li on kohustuslik!";
+			$name_error = "Eesnime väli on kohustuslik!";
 		}else{
-			$name = ($_POST["name"]);
+			$name = $_POST["name"];
 		}	
 		
 		if (empty($_POST["name"])) {
-			$surname_error = "Perekonnanime vĆ¤li on kohustuslik!";
+			$surname_error = "Perekonnanime väli on kohustuslik!";
 		}else{
-			$surname = ($_POST["surname"]);
+			$surname = $_POST["surname"];
 		}	
 		
 		if(empty($_POST["newemail"])){
-			$newemail_error = "e-maili vĆ¤li on kohustuslik!";
+			$newemail_error = "e-maili väli on kohustuslik!";
 		}else{
-			$newemail = ($_POST["newemail"]);
+			$newemail = $_POST["newemail"];
 		}
 		
 		
 		if(empty($_POST["password1"])){
-            $password1_error="Ei saa olla tĆ¼hi";
+            $password1_error="Ei saa olla tühi";
         }else{
             
             //parool ei ole tĆ¼hi, kontrollime pikkust
             if(strlen($_POST["password1"]) < 8){
-                $password1_error="Peab olema vĆ¤hemalt 8 sĆ¼mbolit!";
+                $password1_error="Peab olema vĆ¤hemalt 8 sümbolit!";
                 
-            }
-            
-        }
+				
+				//errorit trükitakse HTML osas rea järel php koodis.
+				}
+				
+			}
 		
-	
+		}
 	}
-	
+	//Selle saan lisada igale asjale, et käiks läbi ja kustutaks üleliigse.
+	function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data); //kaotab liigsed kaldkriipsud
+  $data = htmlspecialchars($data); //võtab erinevad HTML sümbolid ja teeb teksti kujule.
+  return $data;
+}
 	
 ?>
-
 <?php
 	//lehe nimi
 	$page_title = "Logi sisse!";
@@ -106,22 +128,23 @@
 	
 		<h2>Log in</h2>
 		<!--selleks, et -->
-			<form action="user_form.php" method="post">
+			<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 			
-				<input name="email" type="email" placeholder="e-post">* <?php echo $email_error; ?> <br><br>
+				<input name="email" type="email" placeholder="e-post" value="<?php echo $email;?>" >* <?php echo $email_error; ?> <br><br>
 				<input name="password" type="password" placeholder="parool">* <?php echo $password_error; ?><br><br>
-				<input type="submit" value="Logi sisse">
+				
+				<input name="login" type="submit" value="Logi sisse">
 			
 			</form>
 			
 			
 		<h2>Create user</h2>
 			
-			<form action="user_form.php" method="post">
+			<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 			
-				<input type="text" name="name" placeholder="Eesnimi">* <?php echo $name_error;?><br><br>
-				<input type="text" name="surname" placeholder="Perekonnanimi">* <?php echo $surname_error;?><br><br>
-				<input name="newemail" type="email" placeholder="e-post">* <?php echo $newemail_error; ?> <br><br>
+				<input type="text" name="name" placeholder="Eesnimi" value="<?php echo $name;?>" >* <?php echo $name_error;?><br><br>
+				<input type="text" name="surname" placeholder="Perekonnanimi" value="<?php echo $surname;?>" >* <?php echo $surname_error;?><br><br>
+				<input name="newemail" type="email" placeholder="e-post" value="<?php echo $newemail;?>" >* <?php echo $newemail_error; ?> <br><br>
 				<input name="password1" type="password" placeholder="Sisesta soovitud parool">* <?php echo $password1_error; ?><br><br>
 				
 				
@@ -134,7 +157,7 @@
 				<input type="radio" name="gender" value="male">Mees <br><br>
 				
 	
-				<input type="submit" value="Registreeri kasutajaks!">
+				<input name="createuser" type="submit" value="Registreeri kasutajaks!">
 			
 			
 			</form>

@@ -14,6 +14,7 @@
 	
 	
 	<?php
+	//teine variant sama kirjutamiseks, kompaktsem
 	if($page_file_name != "login.php"){
 		echo '<li><a href="login.php">Logi sisse!</a></li>';
 	}else{
