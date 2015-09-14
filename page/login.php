@@ -21,6 +21,7 @@
 	$surname_error = "";
 	$newemail_error = "";
 	$comment ="";
+	$gender = "";
 	
 	//muutujad väärtustega
 	$email = "";
@@ -79,7 +80,7 @@
 				$name = test_input($_POST["name"]);
 			}	
 		
-			if (empty($_POST["name"])) {
+			if (empty($_POST["surname"])) {
 				$surname_error = "Perekonnanime väli on kohustuslik!";
 			}else{
 				$surname = test_input($_POST["surname"]);
@@ -94,17 +95,20 @@
 			if(empty($_POST["password1"])){
 				$password1_error="Ei saa olla tühi";
 			}else{
-				$password1 = test_input($_POST["password1"]);
             
-            //parool ei ole tĆ¼hi, kontrollime pikkust
-            if(strlen($_POST["password1"]) < 8){
-                $password1_error="Peab olema vĆ¤hemalt 8 sümbolit!";
-			}else{
-				$password1 = test_input($_POST["password1"]);
+				//parool ei ole tĆ¼hi, kontrollime pikkust
+				if(strlen($_POST["password1"]) < 8){
+					$password1_error="Peab olema vĆ¤hemalt 8 sümbolit!";
+				}else{
+					$password1 = test_input($_POST["password1"]);
                 
 				//errorit trükitakse HTML osas rea järel php koodis.
 				}
 				
+			}
+			
+			if(!empty($_POST["gender"])){
+				$gender = test_input($_POST["gender"]);
 			}
 		
 		}
@@ -158,8 +162,8 @@
 				
 				<p>Sünniaeg: <input type="text" name="dob" placeholder="nt. 01.01.1993" /></p>
 				
-				<input type="radio" name="gender" value="female">Naine
-				<input type="radio" name="gender" value="male">Mees <br><br>
+				<input type="radio" name="gender" value="female" <?php if (isset($gender) && $gender=="female") echo "checked";?>>Naine
+				<input type="radio" name="gender" value="male" <?php if (isset($gender) && $gender=="male") echo "checked";?>>Mees <br><br>
 				
 				<input name="createuser" type="submit" value="Registreeri kasutajaks!">
 			
