@@ -61,12 +61,15 @@
 				}else{
 					$password = test_input($_POST["password"]);
 				}
-				
-				if($password_error == "" && $email_error == ""){
+			}
+			
+			//kui erroreid pole, siis viskab veebilehe päisesse sisestatud andmed
+			
+				if($email_error == "" && $password_error == ""){
 					// kui erroreid ei olnud
 					echo "Kontrollin ".$email. " " .$password;
-			}
-			}
+				}
+			
 		}
 	}
 	//siit algab kasutaja loomise osa.
@@ -111,6 +114,12 @@
 				$gender = test_input($_POST["gender"]);
 			}
 		
+		
+		if($name_error == "" && $surname_error == "" && $newemail_error == "" && $password1_error == ""){
+					// kui erroreid ei olnud
+					echo "Kontrollin " .$name. " " .$surname. " " .$newemail. " " .$password1;
+				}
+		
 		}
 	}
 	//Selle saan lisada igale asjale, et käiks läbi ja kustutaks üleliigse.
@@ -132,8 +141,8 @@
 
 <?php require_once("../header.php"); ?>
 
-		<p>Veebilehele sisselogides saaks sisestada andmeid/pääseks ligi kogutud andmetele/neid analüüsida, mis on saadud välitööde käigus. Tegu on NATURA 2000 rannikuelupaikade kaardistamisega (GPS-punktid, pildid, kommentaarid).
-		Edasi graafikud, joonised nende andmete analüüsil. Geoökoloogia.
+		<p>Veebilehele sisselogides saaks sisestada andmeid/pääseks ligi kogutud andmetele/neid analüüsida, mis on saadud välitööde käigus. Tegu on NATURA 2000 rannikuelupaikade ja -alade kaardistamisega (GPS-punktid, pildid, kommentaarid).
+		Edasi graafikud, kaardid, joonised nende andmete analüüsil. Geoökoloogia.
 	
 		<h2>Log in</h2>
 		<!--selleks, et -->
